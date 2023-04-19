@@ -8,18 +8,17 @@ SELECT * FROM Employees WHERE Hire_date >= DATEADD(day, -30, GETDATE());
 
 -- Найти максимальную и минимальную зарплату по каждому департаменту
 
-SELECT Department_id, MAX(Salary) AS Max_Salary, MIN(Salary) AS Min_Salary
-FROM Employees
-GROUP BY Department_id;
+SELECT Departments.name, MIN(Employees.salary), MAX(Employees.salary)
+FROM Employees, Departments
+WHERE Employees.department_id = Departments.id
+GROUP BY Departments.name;
 
 -- Посчитать количество работников в каждом регионе
 
-SELECT Regions.Name, COUNT(*) AS Num_Employees
-FROM Employees
-JOIN Departments ON Employees.Department_id = Departments.Department_id
-JOIN Locations ON Departments.Location_id = Locations.Location_id
-JOIN Regions ON Locations.Region_id = Regions.Region_id
-GROUP BY Regions.Name;
+SELECT Regions.name, COUNT(Employees.id)
+FROM Employees, Departments, Locations, Regions
+WHERE Employees.department_id = Departments.id AND Departments.location_id = Locations.id AND Locations.region_id = Regions.id
+GROUP BY Regions.name;
 
 -- Показать сотрудников у которых фамилия длиннее 10 символов
 
