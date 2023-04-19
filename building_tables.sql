@@ -1,34 +1,28 @@
-CREATE TABLE Employees (
-    Name VARCHAR,
-    Last_name VARCHAR,
-    Hire_date DATE,
-    Salary INTEGER,
-    Email VARCHAR,
-    Manager_id INTEGER,
-    Department_id INTEGER,
-    PRIMARY KEY (Employee_id),
-    FOREIGN KEY (Manager_id) REFERENCES Employees(Employee_id),
-    FOREIGN KEY (Department_id) REFERENCES Departments(Department_id)
-);
-
-CREATE TABLE Departments (
-    Name VARCHAR,
-    Location_id INTEGER,
-    Manager_id INTEGER,
-    PRIMARY KEY (Department_id),
-    FOREIGN KEY (Location_id) REFERENCES Locations(Location_id),
-    FOREIGN KEY (Manager_id) REFERENCES Employees(Employee_id)
+CREATE TABLE Regions (
+   id SERIAL PRIMARY KEY,
+   name VARCHAR(50)
 );
 
 CREATE TABLE Locations (
-    Name VARCHAR,
-    Address VARCHAR,
-    Region_id INTEGER,
-    PRIMARY KEY (Location_id),
-    FOREIGN KEY (Region_id) REFERENCES Regions(Region_id)
+   id SERIAL PRIMARY KEY,
+   address VARCHAR(100),
+   region_id INTEGER REFERENCES Regions(id)
 );
 
-CREATE TABLE Regions (
-    Name VARCHAR,
-    PRIMARY KEY (Region_id)
+CREATE TABLE Departments (
+   id SERIAL PRIMARY KEY,
+   name VARCHAR(50),
+   location_id INTEGER REFERENCES Locations(id),
+   manager_id INTEGER REFERENCES Employees(id)
+);
+
+CREATE TABLE Employees (
+   id SERIAL PRIMARY KEY,
+   name VARCHAR(50),
+   last_name VARCHAR(50),
+   hire_date DATE,
+   salary INTEGER,
+   email VARCHAR(50),
+   manager_id INTEGER REFERENCES Employees(id),
+   department_id INTEGER REFERENCES Departments(id)
 );
